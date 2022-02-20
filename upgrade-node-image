@@ -1,0 +1,19 @@
+name: Upgrade cluster node images
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  upgrade-node:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Upgrade node images
+        uses: Azure/cli@v1.0.0
+        with:
+          inlineScript: az aks upgrade -g aadaks -n icyaks --node-image-only --yes
