@@ -1,0 +1,26 @@
+#This is a basic workflow to help you get started with Actions
+
+name: Upgrade AKS cluster
+
+on:
+  schedule:
+    - cron: '30 7 * * *'
+
+jobs:
+  upgrade-node:
+    runs-on: ubuntu-latest
+#login
+    steps:
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          allow-no-subscriptions: true
+  #upgrade        
+      - name: Upgrade AKS ckuster
+        uses: Azure/cli@v1.0.0
+        with:
+          #inlineScript: az aks upgrade -g aadaks -n icyaks --node-image-only --yes
+          inlineScript: az aks upgrade -g aadaks -n icyaks --kubernetes-version  --yes
+          
+
