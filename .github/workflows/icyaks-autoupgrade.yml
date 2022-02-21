@@ -11,14 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 #login
     steps:
-      - name: Azure Login
-        uses: Azure/login@v1.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          allow-no-subscriptions: true
+    - name: Azure Login
+    uses: Azure/login@v1.4.3
+    with:
+    # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+      creds: ${{ secrets.AZURE_CREDENTIALS }}
+      subscription-id: e3fadf1f-643e-42a1-922d-6cf4858c577c
+    # Set this value to true to enable Azure PowerShell Login in addition to Az CLI login
+      environment: azurechinacloud
+    # Set this value to true to enable support for accessing tenants without subscriptions
+      allow-no-subscriptions: true
+          
   #upgrade        
       - name: Upgrade AKS ckuster
-        uses: Azure/cli@v1.0.0
+        uses: Azure/cli@v1.0.6
         with:
           #inlineScript: az aks upgrade -g aadaks -n icyaks --node-image-only --yes
           inlineScript: az aks upgrade -g aadaks -n icyaks --kubernetes-version 1.22.2 --yes
