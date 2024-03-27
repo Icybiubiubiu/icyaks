@@ -1,0 +1,26 @@
+Issue description:
+
+(combined from similar events): MountVolume.SetUp failed for volume 'kube-api-access-l4bmj' : write /var/lib/kubelet/pods/4ceae193-438a-4884-ab43-2fce07363d0f/volumes/kubernetes.io~projected /kube-api-access-l4bmj/..2022_10_27_18_33_02.822981758/ca.crt: no space left on device
+
+Repro:
+    resources:
+      requests:
+        memory: "500m"
+        cpu: "250m"
+      limits:
+        memory: "600m"
+        cpu: "500m"
+
+
+RCA:
+Limits and requests for memory are measured in bytes. You can express memory as a plain integer or as a fixed-point number using one of these quantity suffixes: E, P, T, G, M, k. You can also use the power-of-two equivalents: Ei, Pi, Ti, Gi, Mi, Ki. For example, the following represent roughly the same value:
+128974848, 129e6, 129M,  128974848000m, 123Mi
+
+Mitigation:
+    resources:
+      requests:
+        memory: "500M"
+        cpu: "250m"
+      limits:
+        memory: "600M"
+        cpu: "500m"
