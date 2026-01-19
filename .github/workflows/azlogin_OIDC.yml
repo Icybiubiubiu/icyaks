@@ -17,7 +17,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production  # 使用 environment 中的 secrets
+    environment: icy-OIDC  # 使用 environment 中的 secrets
     
     steps:
       - name: Checkout code
